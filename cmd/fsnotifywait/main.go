@@ -49,12 +49,15 @@ func main() {
 		}
 	}
 
-	watchFolder := os.Args[1]
-	fmt.Println("watchFolder:", watchFolder)
+	watchFolders := os.Args[1:]
+	fmt.Println("watchFolder:", watchFolders)
 
-	if _, err := os.Stat(watchFolder); os.IsNotExist(err) {
-		exit("Folder does not exist")
+	for _, watchFolder := range watchFolders {
+		if _, err := os.Stat(watchFolder); os.IsNotExist(err) {
+			fmt.Println("Folder does not exist", watchFolder)
+			os.Exit(1)
+		}
 	}
 
-	watch(watchFolder)
+	watch(watchFolders...)
 }
